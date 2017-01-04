@@ -1,0 +1,138 @@
+//----------------------------------------- BUILD SCRIPT ------------------------------------------------//
+
+buildscript {
+  repositories {
+  	mavenLocal()
+	mavenCentral()
+	maven {
+		name = "GradleRIO"
+		url = "http://dev.imjac.in/maven"
+	}
+  }
+  dependencies {
+    classpath group: 'jaci.openrio.gradle', name: 'GradleRIO', version: '+', classifier: 'Toast'			//Change this line if you wish to Update GradleRIO
+  }
+}
+
+//----------------------------------------- PLUGINS DEFINITION ------------------------------------------------//
+
+plugins {
+    id 'java'
+    id 'java-gradle-plugin'    
+    id 'idea'
+    id 'eclipse'
+    id 'maven'
+    id 'jacoco'
+    id 'com.github.kt3k.coveralls' version '2.6.3'
+}
+apply plugin:'GradleRIO'  
+
+//----------------------------------------- TOAST CONFIGURATION ------------------------------------------------//
+// This is a copy from the Toast Setup. Is is defined even with the repository definition above in the buildscript
+repositories {
+    mavenCentral()
+    maven {
+        name = "Toast"
+        url = "http://dev.imjac.in/maven"
+    }
+}
+dependencies {
+
+	// Robot dependencies
+    compile group: 'jaci.openrio.toast', name: 'Toast', version: '+'    //Change this line to update Toast
+    compile group: 'javax.jmdns', name: 'jmdns', version: '3.4.1'
+    
+    // Web dependencies
+    compile group: 'org.json', name: 'json', version: '20160810'
+    compile "com.sparkjava:spark-core:2.5.4"
+	
+	// Logging dependencies
+	compile group: 'log4j', name: 'log4j', version: '1.2.17'
+    
+    // Test dependencies
+    testCompile group: 'junit', name: 'junit', version: '4.+'
+    
+    // Vision Processing
+    compile group: 'nu.pattern', name: 'opencv', version: '2.4.9-7'
+}
+
+configurations{
+
+	// Exclusions
+    compile.exclude group: "ch.qos.logback", module: "logback-classic"
+}
+//----------------------------------------- TEAM INFO MANAGEMENT ------------------------------------------------//
+
+gradlerio.robotClass = "org.usfirst.frc.team4571.Robot"   //The class for the main Robot Class. Used in manifest
+gradlerio.team = "4571"                                   //Your FRC team number (e.g. 5333 for team 'Can't C#', or 47 for Chief Delphi)
+gradlerio.rioIP = "10.45.71.20"                           //Uncomment to specify the IP address of the RIO
+
+//----------------------------------------- BUILDING THE JAR ------------------------------------------------//
+
+def robotManifest = {
+  attributes 'Main-Class': 'edu.wpi.first.wpilibj.RobotBase'
+  attributes 'Robot-Class': gradlerio.robotClass
+  attributes 'Implementation-Title': 'FRC2017Robot'
+}
+
+jar {
+  baseName = project.name
+  from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+  manifest robotManifest
+}
+
+task genJavadoc(type: Jar, dependsOn: javadoc) {
+  classifier = 'javadoc'
+  from javadoc.destinationDir
+}
+
+artifacts {
+  archives genJavadoc
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src']
+        }
+        resources {
+            srcDirs = ['src/resources']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['test']
+        }
+        resources {
+            srcDirs = ['test/resources']
+        }
+    }
+}
+
+// Appending a project version to the jar. version is passed in with -PprodVersion=...
+allprojects {
+    if (project.hasProperty('prodVersion')) {
+        project.version = project.prodVersion
+    } else {
+        project.version = 'developer-build'
+    }
+}
+
+//----------------------------------------- CODE COVERAGE REPORTS ------------------------------------------------//
+
+task codeCoverageReport(type: JacocoReport) {
+    executionData fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec")
+
+    reports {
+        xml.enabled true
+        xml.destination "${buildDir}/reports/jacoco/report.xml"
+        html.enabled false
+        csv.enabled false
+    }
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+    }
+}
