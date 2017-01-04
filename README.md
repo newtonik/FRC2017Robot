@@ -1,4 +1,4 @@
-# FRC2017Robot  
+# FRC2017Robot  [![Build Status](https://travis-ci.org/frc4571/FRC2017Robot.svg?branch=master)](https://travis-ci.org/frc4571/FRC2017Robot)
 
 FRC robot for FIRST STEAMworks 2017
 
