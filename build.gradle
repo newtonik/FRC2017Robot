@@ -1,95 +1,36 @@
-//----------------------------------------- BUILD SCRIPT ------------------------------------------------//
-
-buildscript {
-  repositories {
-  	mavenLocal()
-	mavenCentral()
-	maven {
-		name = "GradleRIO"
-		url = "http://dev.imjac.in/maven"
-	}
-  }
-  dependencies {
-    classpath group: 'jaci.openrio.gradle', name: 'GradleRIO', version: '+', classifier: 'Toast'			//Change this line if you wish to Update GradleRIO
-  }
-}
-
-//----------------------------------------- PLUGINS DEFINITION ------------------------------------------------//
+//------------------------------------------- PLUGIN DEFINITION -----------------------------------------------//
 
 plugins {
-    id 'java'
-    id 'java-gradle-plugin'    
-    id 'idea'
-    id 'eclipse'
-    id 'maven'
-    id 'jacoco'
-    id 'com.github.kt3k.coveralls' version '2.6.3'
+    id "java-gradle-plugin"
+    id "eclipse"
+    id "jacoco"
 }
-apply plugin:'GradleRIO'  
 
-//----------------------------------------- TOAST CONFIGURATION ------------------------------------------------//
-// This is a copy from the Toast Setup. Is is defined even with the repository definition above in the buildscript
+//------------------------------------------- VERSION MANAGEMENT -----------------------------------------------//
+
+version = '1.0'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+//------------------------------------------- DEPENDENCY MANAGEMENT -----------------------------------------------//
+
+// Defining the dependency repository locations
 repositories {
-    mavenCentral()
-    maven {
-        name = "Toast"
-        url = "http://dev.imjac.in/maven"
-    }
+	// If you are behind a firewall and have a local maven repo set up, then use
+    mavenLocal()
+    
+    // If you aren't behind a firewall, then use
+    mavenCentral(); 
 }
+
 dependencies {
-
-	// Robot dependencies
-    compile group: 'jaci.openrio.toast', name: 'Toast', version: '+'    //Change this line to update Toast
-    compile group: 'javax.jmdns', name: 'jmdns', version: '3.4.1'
-    
-    // Web dependencies
-    compile group: 'org.json', name: 'json', version: '20160810'
-    compile "com.sparkjava:spark-core:2.5.4"
-	
-	// Logging dependencies
-	compile group: 'log4j', name: 'log4j', version: '1.2.17'
-    
-    // Test dependencies
+	compile files('libs/wpi/WPILib.jar', 'libs/wpi/NetworkTables.jar', 'libs/wpi/cscore.jar', 'libs/wpi/opencv.jar')
     testCompile group: 'junit', name: 'junit', version: '4.+'
-    
-    // Vision Processing
-    compile group: 'nu.pattern', name: 'opencv', version: '2.4.9-7'
 }
 
-configurations{
+//------------------------------------------- BUILDING THE JAR -----------------------------------------------//
 
-	// Exclusions
-    compile.exclude group: "ch.qos.logback", module: "logback-classic"
-}
-//----------------------------------------- TEAM INFO MANAGEMENT ------------------------------------------------//
-
-gradlerio.robotClass = "org.usfirst.frc.team4571.Robot"   //The class for the main Robot Class. Used in manifest
-gradlerio.team = "4571"                                   //Your FRC team number (e.g. 5333 for team 'Can't C#', or 47 for Chief Delphi)
-gradlerio.rioIP = "10.45.71.20"                           //Uncomment to specify the IP address of the RIO
-
-//----------------------------------------- BUILDING THE JAR ------------------------------------------------//
-
-def robotManifest = {
-  attributes 'Main-Class': 'edu.wpi.first.wpilibj.RobotBase'
-  attributes 'Robot-Class': gradlerio.robotClass
-  attributes 'Implementation-Title': 'FRC2017Robot'
-}
-
-jar {
-  baseName = project.name
-  from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-  manifest robotManifest
-}
-
-task genJavadoc(type: Jar, dependsOn: javadoc) {
-  classifier = 'javadoc'
-  from javadoc.destinationDir
-}
-
-artifacts {
-  archives genJavadoc
-}
-
+// Where should the build get the source files from?
 sourceSets {
     main {
         java {
@@ -99,24 +40,31 @@ sourceSets {
             srcDirs = ['src/resources']
         }
     }
-    test {
-        java {
-            srcDirs = ['test']
-        }
-        resources {
-            srcDirs = ['test/resources']
-        }
-    }
 }
 
 // Appending a project version to the jar. version is passed in with -PprodVersion=...
 allprojects {
-    if (project.hasProperty('prodVersion')) {
-        project.version = project.prodVersion
-    } else {
-        project.version = 'developer-build'
-    }
+   if (project.hasProperty('prodVersion')) {
+     project.version = project.prodVersion
+   } else {
+     project.version = 'developer-build'
+   }
 }
+
+// Defining the jar manifest
+def robotManifest = {
+  attributes 'Main-Class': 'edu.wpi.first.wpilibj.RobotBase'
+  attributes 'Implementation-Title': 'Crate Robot'
+}
+
+task fatjar( type: Jar ) {
+	manifest robotManifest
+	baseName = project.name
+	from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+	with jar
+}
+
+jar.finalizedBy(fatjar) 
 
 //----------------------------------------- CODE COVERAGE REPORTS ------------------------------------------------//
 
