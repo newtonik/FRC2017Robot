@@ -74,10 +74,6 @@ public class Robot extends IterativeRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-        while(isOperatorControl() && isEnabled()) {
-    		Robot.TANK_DRIVE_SUBSYSTEM.drive(LEFT_JOYSTICK, RIGHT_JOYSTICK);
-    		Timer.delay(0.01);
-        }
     }
     
     /**
