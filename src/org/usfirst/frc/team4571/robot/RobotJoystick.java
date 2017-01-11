@@ -76,11 +76,11 @@ public class RobotJoystick extends Joystick {
 		}
 		
 		public double getXAxisSpeed() {
-			return this.getAxisType(1);
+			return this.getAxisType(0);
 		}
 		
 		public double getYAxisSpeed() {
-			return this.getAxisType(2);
+			return this.getAxisType(1);
 		}
 	}
 		
