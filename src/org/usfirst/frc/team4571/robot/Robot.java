@@ -1,7 +1,13 @@
 package org.usfirst.frc.team4571.robot;
 
+import org.usfirst.frc.team4571.robot.commands.TankDriveCommand;
+import org.usfirst.frc.team4571.robot.subsystems.TankDriveSubsystem;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 /**
@@ -10,7 +16,14 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  *
  */
 public class Robot extends IterativeRobot {
+	public static OperatorInterface oi;
+
+	public static final RobotJoystick LEFT_JOYSTICK = new RobotJoystick(RobotConstants.LEFT_JOYSTICK_PORT);
+	public static final RobotJoystick RIGHT_JOYSTICK = new RobotJoystick(RobotConstants.RIGHT_JOYSTICK_PORT);
 	
+	public static final TankDriveSubsystem TANK_DRIVE_SUBSYSTEM = new TankDriveSubsystem();
+	public static final TankDriveCommand TANK_DRIVE_COMMAND = new TankDriveCommand();
+
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -52,6 +65,7 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void teleopInit() {
+    	
     }
 
     /**
@@ -60,6 +74,10 @@ public class Robot extends IterativeRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+        while(isOperatorControl() && isEnabled()) {
+    		Robot.TANK_DRIVE_SUBSYSTEM.drive(LEFT_JOYSTICK, RIGHT_JOYSTICK);
+    		Timer.delay(0.01);
+        }
     }
     
     /**
