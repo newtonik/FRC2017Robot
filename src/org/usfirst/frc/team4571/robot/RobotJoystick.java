@@ -6,81 +6,105 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class RobotJoystick extends Joystick {
-		private Button button_1;
-		private Button button_2;
-		private Button button_3;
-		private Button button_4;
+		private Button button1;
+		private Button button2;
+		private Button button3;
+		private Button button4;
+		double tuningParameter;
 		
 		public RobotJoystick(int port) {
 			super(port);
-			this.button_1 = new JoystickButton(this, 1);
-			this.button_2 = new JoystickButton(this, 2);
-			this.button_3 = new JoystickButton(this, 3);
-			this.button_4 = new JoystickButton(this, 4);
+			this.button1 = new JoystickButton(this, 1);
+			this.button2 = new JoystickButton(this, 2);
+			this.button3 = new JoystickButton(this, 3);
+			this.button4 = new JoystickButton(this, 4);
 		}
 		
-		public RobotJoystick button_1WhenPressed(Command command) {
-			this.button_1.whenPressed(command);
+		public RobotJoystick button1WhenPressed(Command command) {
+			this.button1.whenPressed(command);
 			return this;
 		}
 		
-		public RobotJoystick button_1WhenReleased(Command command) {
-			this.button_1.whenReleased(command);
+		public RobotJoystick button1WhenReleased(Command command) {
+			this.button1.whenReleased(command);
 			return this;
 		}
 		
-		public RobotJoystick button_2WhenPressed(Command command) {
-			this.button_2.whenPressed(command);
+		public RobotJoystick button2WhenPressed(Command command) {
+			this.button2.whenPressed(command);
 			return this;
 		}
 		
-		public RobotJoystick button_2WhenReleased(Command command) {
-			this.button_2.whenReleased(command);
+		public RobotJoystick button2WhenReleased(Command command) {
+			this.button2.whenReleased(command);
 			return this;
 		}
 		
-		public RobotJoystick button_3WhenPressed(Command command) {
-			this.button_3.whenPressed(command);
+		public RobotJoystick button3WhenPressed(Command command) {
+			this.button3.whenPressed(command);
 			return this;
 		}
 		
-		public RobotJoystick button_3WhenReleased(Command command) {
-			this.button_3.whenReleased(command);
+		public RobotJoystick button3WhenReleased(Command command) {
+			this.button3.whenReleased(command);
 			return this;
 		}
 		
-		public RobotJoystick button_4WhenPressed(Command command) {
-			this.button_4.whenPressed(command);
+		public RobotJoystick button4WhenPressed(Command command) {
+			this.button4.whenPressed(command);
 			return this;
 		}
 		
-		public RobotJoystick button_4WhenReleased(Command command) {
-			this.button_4.whenReleased(command);
+		public RobotJoystick button4WhenReleased(Command command) {
+			this.button4.whenReleased(command);
 			return this;
 		}
 		
-		public Button getButton_1() {
-			return this.button_1;	
+		public Button getButton1() {
+			return this.button1;	
 		}
 		
-		public Button getButton_2() {
-			return this.button_2;
+		public Button getButton2() {
+			return this.button2;
 		}
 		
-		public Button getButton_3() {
-			return this.button_3;
+		public Button getButton3() {
+			return this.button3;
 		}
 		
-		public Button getButton_4() {
-			return this.button_4;
+		public Button getButton4() {
+			return this.button4;
 		}
 		
-		public double getXAxis() {
-			return this.getAxisType(0);
+		public double getXAxisSpeed() {
+			return adjustForSensitivity(this.getRawAxis(0), getTuningParameter());
 		}
 		
-		public double getYAxis() {
-			return this.getAxisType(1);
+		public double getYAxisSpeed() {
+			return adjustForSensitivity(this.getRawAxis(1), getTuningParameter());
+		}
+		
+		public double getTuningParameter() {
+			return tuningParameter;
+		}
+		
+		// Taken from 
+		//	- https://www.chiefdelphi.com/forums/showthread.php?p=921992
+		//  - https://www.chiefdelphi.com/media/papers/2421
+		/**
+		 * Run some calculations to figure out how sensitive we want the joystick to be
+		 * 
+		 * @param originalValue : Value passed in to calculate sensitivity
+		 * @param tuningParameter : Ranges from 0 - 1. 
+		 * 			  When tuningParametera = 0, result = original Value   i.e. not adjusted for sensitivity
+		 * 			  When tuningParameter  = 1, result = originalValue ^3 i.e. very sensitive
+		 * @return value corrected for sensitivity
+		 */
+		public double adjustForSensitivity( double originalValue, double tuningParameter ){
+			if( tuningParameter == 0 ){
+				tuningParameter = RobotConstants.JOYSTICK_TUNING_PARAMETER;
+			}
+			return ( ( Math.pow(originalValue, 3) * tuningParameter ) + ( ( 1 - tuningParameter ) * originalValue ) );
 		}
 	}
 		

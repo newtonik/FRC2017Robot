@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  *
  */
 public class Robot extends IterativeRobot {
-	public static OperatorInterface oi;
 
 	public static final RobotJoystick LEFT_JOYSTICK = new RobotJoystick(RobotConstants.LEFT_JOYSTICK_PORT);
 	public static final RobotJoystick RIGHT_JOYSTICK = new RobotJoystick(RobotConstants.RIGHT_JOYSTICK_PORT);

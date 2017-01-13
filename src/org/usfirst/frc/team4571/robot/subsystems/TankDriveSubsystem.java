@@ -13,11 +13,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class TankDriveSubsystem extends Subsystem {
 	
-	RobotDrive tankDrive;
-	CANTalon frontLeftMotor;
-	CANTalon frontRightMotor;
-	CANTalon rearLeftMotor;
-	CANTalon rearRightMotor;
+	private RobotDrive tankDrive;
+	private CANTalon frontLeftMotor;
+	private CANTalon frontRightMotor;
+	private CANTalon rearLeftMotor;
+	private CANTalon rearRightMotor;
 	
 	public TankDriveSubsystem() {
 		this.frontLeftMotor = new CANTalon(RobotConstants.FRONT_LEFT_MOTOR_CHANNEL);
