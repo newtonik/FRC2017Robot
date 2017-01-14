@@ -39,6 +39,7 @@ public class Robot extends IterativeRobot {
 	
     @Override
 	public void disabledPeriodic() {
+    	Scheduler.getInstance().removeAll();
 		Scheduler.getInstance().run();
 	}
 
@@ -61,7 +62,7 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void teleopInit() {
-    	
+    	Scheduler.getInstance().add(TANK_DRIVE_COMMAND);
     }
 
     /**
