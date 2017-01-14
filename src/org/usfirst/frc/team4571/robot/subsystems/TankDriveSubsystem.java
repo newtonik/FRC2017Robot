@@ -45,22 +45,12 @@ public class TankDriveSubsystem extends Subsystem {
     
     public void drive(double leftValue, double rightValue, boolean squaredInputs) {
     	this.tankDrive.tankDrive(leftValue, rightValue, squaredInputs);
+    
     }
     
     public void stop() {
     	tankDrive.drive(0,0);
     }
- 
-    public void setMotors(double power) {
-    	this.frontLeftMotor.set(1);
-    	this.frontRightMotor.set(1);
-    	this.rearLeftMotor.set(1);
-    	this.rearRightMotor.set(1);
-    }
-   
-
-
-
-
-}
+    
+ }
 
