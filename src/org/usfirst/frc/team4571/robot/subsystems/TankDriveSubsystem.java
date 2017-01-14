@@ -13,20 +13,22 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class TankDriveSubsystem extends Subsystem {
 	
-	private RobotDrive tankDrive;
-	private CANTalon frontLeftMotor;
-	private CANTalon frontRightMotor;
-	private CANTalon rearLeftMotor;
-	private CANTalon rearRightMotor;
+	RobotDrive tankDrive;
+	CANTalon frontLeftMotor;
+	CANTalon frontRightMotor;
+	CANTalon rearLeftMotor;
+	CANTalon rearRightMotor;
+	CANTalon goFoward;
+	CANTalon goBack;
 	
 	public TankDriveSubsystem() {
 		this.frontLeftMotor = new CANTalon(RobotConstants.FRONT_LEFT_MOTOR_CHANNEL);
 		this.frontRightMotor = new CANTalon(RobotConstants.FRONT_RIGHT_MOTOR_CHANNEL);
-		this.rearLeftMotor = new CANTalon(RobotConstants.REAR_LEFT_MOTOR_CHANNEL);
 		this.rearRightMotor = new CANTalon(RobotConstants.REAR_RIGHT_MOTOR_CHANNEL);
+		this.rearLeftMotor = new CANTalon(RobotConstants.REAR_LEFT_MOTOR_CHANNEL);
 		this.frontRightMotor.setInverted(true);
 		this.rearRightMotor.setInverted(true);
-		this.tankDrive = new RobotDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);	
+		this.tankDrive = new RobotDrive(frontLeftMotor, frontRightMotor, rearLeftMotor, rearRightMotor);	
 	}
     
     // Put methods for controlling this subsystem
@@ -37,6 +39,10 @@ public class TankDriveSubsystem extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     }
     
+    public void drive(RobotJoystick left, RobotJoystick right) {
+    	tankDrive.tankDrive(left, right);
+    }
+    
     public void drive(double leftValue, double rightValue, boolean squaredInputs) {
     	this.tankDrive.tankDrive(leftValue, rightValue, squaredInputs);
     }
@@ -44,5 +50,17 @@ public class TankDriveSubsystem extends Subsystem {
     public void stop() {
     	tankDrive.drive(0,0);
     }
+ 
+    public void setMotors(double power) {
+    	this.frontLeftMotor.set(1);
+    	this.frontRightMotor.set(1);
+    	this.rearLeftMotor.set(1);
+    	this.rearRightMotor.set(1);
+    }
+   
+
+
+
+
 }
 
