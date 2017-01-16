@@ -22,7 +22,7 @@ public class AutonomousDriveCommand2 extends Command {
 		long startFowardTime = System.currentTimeMillis();
 		long finishFowardTime = 1800000;
 		while( System.currentTimeMillis() - startFowardTime <= finishFowardTime ){
-			Robot.TANK_DRIVE_SUBSYSTEM.drive(.1,.1,true);
+			Robot.TANK_DRIVE_SUBSYSTEM.drive(.3,.3,true);
 			driveStop = true;
 		}
 
