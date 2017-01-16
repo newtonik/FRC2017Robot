@@ -1,7 +1,8 @@
 package org.usfirst.frc.team4571.robot.subsystems;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.usfirst.frc.team4571.robot.RobotConstants;
-import org.usfirst.frc.team4571.robot.RobotJoystick;
 
 import com.ctre.CANTalon;
 
@@ -14,6 +15,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  */
 public class TankDriveSubsystem extends Subsystem {
+
+	//private static final Logger logger = LoggerFactory.getLogger( "TankDriveSubsystem" );
 
 	private RobotDrive tankDrive;
 	private CANTalon frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor;
@@ -43,7 +46,6 @@ public class TankDriveSubsystem extends Subsystem {
 	}
 
 	public void drive(double leftValue, double rightValue, boolean squaredInputs) {
-		this.tankDrive.tankDrive(leftValue, rightValue, squaredInputs);
 	}
 
 	public void stop() {
