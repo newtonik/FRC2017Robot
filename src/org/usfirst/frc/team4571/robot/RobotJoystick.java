@@ -15,6 +15,7 @@ public class RobotJoystick extends Joystick {
 			this.button2 = new JoystickButton(this, 2);
 			this.button3 = new JoystickButton(this, 3);
 			this.button4 = new JoystickButton(this, 4);
+			this.tuningParameter = RobotConstants.JOYSTICK_TUNING_PARAMETER;
 		}
 		
 		public RobotJoystick button1WhenPressed(Command command) {
