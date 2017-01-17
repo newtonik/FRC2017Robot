@@ -1,5 +1,10 @@
 package org.usfirst.frc.team4571.robot;
 
+import org.usfirst.frc.team4571.robot.commands.AutonomousDriveCommand;
+import org.usfirst.frc.team4571.robot.commands.AutonomousDriveCommand2;
+import org.usfirst.frc.team4571.robot.commands.TankDriveCommand;
+import org.usfirst.frc.team4571.robot.subsystems.TankDriveSubsystem;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -10,7 +15,14 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  *
  */
 public class Robot extends IterativeRobot {
+
+	public static final RobotJoystick LEFT_JOYSTICK = new RobotJoystick(RobotConstants.LEFT_JOYSTICK_PORT);
+	public static final RobotJoystick RIGHT_JOYSTICK = new RobotJoystick(RobotConstants.RIGHT_JOYSTICK_PORT);
 	
+	public static final TankDriveSubsystem TANK_DRIVE_SUBSYSTEM = new TankDriveSubsystem();
+	public static final TankDriveCommand TANK_DRIVE_COMMAND = new TankDriveCommand();
+	public static final AutonomousDriveCommand2 AUTO_DRIVE_COMMAND2 = new AutonomousDriveCommand2();
+
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -30,6 +42,7 @@ public class Robot extends IterativeRobot {
 	
     @Override
 	public void disabledPeriodic() {
+    	Scheduler.getInstance().removeAll();
 		Scheduler.getInstance().run();
 	}
 
@@ -41,6 +54,7 @@ public class Robot extends IterativeRobot {
 	 */
     @Override
     public void autonomousInit() {
+    	Scheduler.getInstance().add(AUTO_DRIVE_COMMAND2);
     }
 
     /**
@@ -48,10 +62,12 @@ public class Robot extends IterativeRobot {
      */
     @Override
     public void autonomousPeriodic() {
+    	Scheduler.getInstance().run();
     }
 
     @Override
     public void teleopInit() {
+    	Scheduler.getInstance().add(TANK_DRIVE_COMMAND);
     }
 
     /**
