@@ -1,28 +1,36 @@
-package org.usfirst.frc.team4571.robot.commands;
+package org.usfirst.frc.team4571.robot.commands.autonomous;
+
+import org.usfirst.frc.team4571.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class ExampleCommand extends Command {
+public class DriveStraightCommand extends Command {
+	
+	private double distanceInFeet;
 
-    public ExampleCommand() {
+    public DriveStraightCommand(double distanceInFeet) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	this.distanceInFeet = distanceInFeet;
+    	requires(Robot.TANK_DRIVE_SUBSYSTEM);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.TANK_DRIVE_SUBSYSTEM.initialize();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.TANK_DRIVE_SUBSYSTEM.drive(distanceInFeet);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return Robot.TANK_DRIVE_SUBSYSTEM.isDriveStraightFinished();
     }
 
     // Called once after isFinished returns true

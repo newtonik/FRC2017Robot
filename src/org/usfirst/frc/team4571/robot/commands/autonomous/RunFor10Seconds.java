@@ -1,14 +1,15 @@
-package org.usfirst.frc.team4571.robot.commands;
+package org.usfirst.frc.team4571.robot.commands.autonomous;
 
 import org.usfirst.frc.team4571.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Command that runs the wheels for 10 seconds forward, then stops for 2 seconds,
+ *  then run backwards for 5 seconds
  */
-public class AutonomousDriveCommand extends Command {
+public class RunFor10Seconds extends Command {
 	public boolean driveStop = false;
-	public AutonomousDriveCommand() {
+	public RunFor10Seconds() {
 		requires(Robot.TANK_DRIVE_SUBSYSTEM);
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);

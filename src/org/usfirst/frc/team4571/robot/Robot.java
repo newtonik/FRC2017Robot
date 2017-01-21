@@ -1,8 +1,8 @@
 package org.usfirst.frc.team4571.robot;
 
-import org.usfirst.frc.team4571.robot.commands.AutonomousDriveCommand;
-import org.usfirst.frc.team4571.robot.commands.AutonomousDriveCommand2;
-import org.usfirst.frc.team4571.robot.commands.TankDriveCommand;
+import org.usfirst.frc.team4571.robot.commands.autonomous.RunFor10Seconds;
+import org.usfirst.frc.team4571.robot.commands.autonomous.RunFor30Minutes;
+import org.usfirst.frc.team4571.robot.commands.teleOP.TankDriveCommand;
 import org.usfirst.frc.team4571.robot.subsystems.TankDriveSubsystem;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -21,7 +21,7 @@ public class Robot extends IterativeRobot {
 	
 	public static final TankDriveSubsystem TANK_DRIVE_SUBSYSTEM = new TankDriveSubsystem();
 	public static final TankDriveCommand TANK_DRIVE_COMMAND = new TankDriveCommand();
-	public static final AutonomousDriveCommand2 AUTO_DRIVE_COMMAND2 = new AutonomousDriveCommand2();
+	public static final RunFor30Minutes RUN_FOR_30_MIN = new RunFor30Minutes();
 
     /**
      * This function is run when the robot is first started up and should be
@@ -54,7 +54,7 @@ public class Robot extends IterativeRobot {
 	 */
     @Override
     public void autonomousInit() {
-    	Scheduler.getInstance().add(AUTO_DRIVE_COMMAND2);
+    	Scheduler.getInstance().add(RUN_FOR_30_MIN);
     }
 
     /**

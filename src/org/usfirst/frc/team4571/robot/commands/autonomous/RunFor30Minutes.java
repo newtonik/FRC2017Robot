@@ -1,4 +1,4 @@
-package org.usfirst.frc.team4571.robot.commands;
+package org.usfirst.frc.team4571.robot.commands.autonomous;
 
 import org.usfirst.frc.team4571.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -6,9 +6,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class AutonomousDriveCommand2 extends Command {
+public class RunFor30Minutes extends Command {
 	public boolean driveStop = false;
-	public AutonomousDriveCommand2() {
+	public RunFor30Minutes() {
 		requires(Robot.TANK_DRIVE_SUBSYSTEM);
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
