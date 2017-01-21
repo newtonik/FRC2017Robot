@@ -99,7 +99,7 @@ public class TankDriveSubsystem extends Subsystem {
 	
 	public void drive(double distanceInFeet) {
 		driveStraightForGivenDistance(distanceInFeet);
-		while(isDriveStraightFinished()) {
+		while(!isDriveStraightFinished()) {
 			this.robotDrive.arcadeDrive(distanceController.get(), 0.0);
 		}
 	}

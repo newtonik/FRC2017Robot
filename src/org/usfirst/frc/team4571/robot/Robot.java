@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4571.robot;
 
+import org.usfirst.frc.team4571.robot.commands.autonomous.DriveStraightCommand;
 import org.usfirst.frc.team4571.robot.commands.autonomous.RunFor30Minutes;
 import org.usfirst.frc.team4571.robot.commands.teleOP.TankDriveCommand;
 import org.usfirst.frc.team4571.robot.subsystems.TankDriveSubsystem;
@@ -21,6 +22,8 @@ public class Robot extends IterativeRobot {
 	public static final TankDriveSubsystem TANK_DRIVE_SUBSYSTEM = new TankDriveSubsystem();
 	public static final TankDriveCommand TANK_DRIVE_COMMAND = new TankDriveCommand();
 	public static final RunFor30Minutes RUN_FOR_30_MIN = new RunFor30Minutes();
+	public static final DriveStraightCommand DRIVE_STRAIGHT_COMMAND = new DriveStraightCommand(5.0);
+	//distance in feet TODO: change later
 
     /**
      * This function is run when the robot is first started up and should be
@@ -53,7 +56,7 @@ public class Robot extends IterativeRobot {
 	 */
     @Override
     public void autonomousInit() {
-    	Scheduler.getInstance().add(RUN_FOR_30_MIN);
+    	Scheduler.getInstance().add(DRIVE_STRAIGHT_COMMAND);
     }
 
     /**
