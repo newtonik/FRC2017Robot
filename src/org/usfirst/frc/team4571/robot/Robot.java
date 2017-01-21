@@ -1,6 +1,5 @@
 package org.usfirst.frc.team4571.robot;
 
-import org.usfirst.frc.team4571.robot.commands.autonomous.RunFor10Seconds;
 import org.usfirst.frc.team4571.robot.commands.autonomous.RunFor30Minutes;
 import org.usfirst.frc.team4571.robot.commands.teleOP.TankDriveCommand;
 import org.usfirst.frc.team4571.robot.subsystems.TankDriveSubsystem;
