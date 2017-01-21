@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4571.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
@@ -9,13 +10,16 @@ public class RobotJoystick extends Joystick {
 		private Button button1, button2, button3, button4;
 		double tuningParameter;
 		
+		Preferences pref;
+		
 		public RobotJoystick(int port) {
 			super(port);
+			this.pref = Preferences.getInstance();
 			this.button1 = new JoystickButton(this, 1);
 			this.button2 = new JoystickButton(this, 2);
 			this.button3 = new JoystickButton(this, 3);
 			this.button4 = new JoystickButton(this, 4);
-			this.tuningParameter = RobotConstants.JOYSTICK_TUNING_PARAMETER;
+			this.tuningParameter = this.pref.getDouble(RobotConstants.PREF_KEY_JOYSTICK_TUNING_PARAMETER, RobotConstants.JOYSTICK_TUNING_PARAMETER);
 		}
 		
 		public RobotJoystick button1WhenPressed(Command command) {
@@ -100,7 +104,7 @@ public class RobotJoystick extends Joystick {
 		 */
 		public double adjustForSensitivity( double originalValue, double tuningParameter ){
 			if( tuningParameter == 0 ){
-				tuningParameter = RobotConstants.JOYSTICK_TUNING_PARAMETER;
+				tuningParameter = this.pref.getDouble(RobotConstants.PREF_KEY_JOYSTICK_TUNING_PARAMETER,RobotConstants.JOYSTICK_TUNING_PARAMETER);
 			}
 			return ( ( Math.pow(originalValue, 3) * tuningParameter ) + ( ( 1 - tuningParameter ) * originalValue ) );
 		}

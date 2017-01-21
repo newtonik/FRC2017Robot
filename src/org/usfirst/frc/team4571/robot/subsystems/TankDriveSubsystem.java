@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -51,6 +52,10 @@ public class TankDriveSubsystem extends Subsystem {
 		this.distanceController.setPercentTolerance(5.0); //TODO: find how much to put for percent
 		this.distanceController.setContinuous(false);
 		this.distanceController.setOutputRange(-1.0, 1.0);
+		
+		SmartDashboard.putNumber("Right Encoder (Raw)", rightEncoder.getRaw());
+		SmartDashboard.putNumber("Left Encoder (Raw)", leftEncoder.getRaw());
+		SmartDashboard.putNumber("Distance", distanceController.getD());
 	}
 
 	// Put methods for controlling this subsystem
