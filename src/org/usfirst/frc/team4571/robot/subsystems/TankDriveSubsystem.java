@@ -52,10 +52,6 @@ public class TankDriveSubsystem extends Subsystem {
 		this.distanceController.setPercentTolerance(5.0); //TODO: find how much to put for percent
 		this.distanceController.setContinuous(false);
 		this.distanceController.setOutputRange(-1.0, 1.0);
-		
-		SmartDashboard.putNumber("Right Encoder (Raw)", rightEncoder.getRaw());
-		SmartDashboard.putNumber("Left Encoder (Raw)", leftEncoder.getRaw());
-		SmartDashboard.putNumber("Distance", distanceController.getD());
 	}
 
 	// Put methods for controlling this subsystem
@@ -99,6 +95,9 @@ public class TankDriveSubsystem extends Subsystem {
 	}
 
 	public void drive(double leftValue, double rightValue, boolean squaredInputs) {
+		SmartDashboard.putNumber("Right Encoder (Raw)", rightEncoder.getRaw());
+		SmartDashboard.putNumber("Left Encoder (Raw)", leftEncoder.getRaw());
+		SmartDashboard.putNumber("Distance", distanceController.getD());
 		this.tankDrive.tankDrive(leftValue, rightValue, squaredInputs);
 	}
 
