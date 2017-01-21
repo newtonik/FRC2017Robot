@@ -2,7 +2,9 @@ package org.usfirst.frc.team4571.robot;
 
 import org.usfirst.frc.team4571.robot.commands.AutonomousDriveCommand;
 import org.usfirst.frc.team4571.robot.commands.AutonomousDriveCommand2;
+import org.usfirst.frc.team4571.robot.commands.IntakeCommand;
 import org.usfirst.frc.team4571.robot.commands.TankDriveCommand;
+import org.usfirst.frc.team4571.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team4571.robot.subsystems.TankDriveSubsystem;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -22,7 +24,9 @@ public class Robot extends IterativeRobot {
 	public static final TankDriveSubsystem TANK_DRIVE_SUBSYSTEM = new TankDriveSubsystem();
 	public static final TankDriveCommand TANK_DRIVE_COMMAND = new TankDriveCommand();
 	public static final AutonomousDriveCommand2 AUTO_DRIVE_COMMAND2 = new AutonomousDriveCommand2();
-
+	public static final IntakeSubsystem INTAKE_SUBSYSTEM = new IntakeSubsystem();
+	public static final IntakeCommand INTAKE_COMMAND = new IntakeCommand();
+	
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
