@@ -1,33 +1,25 @@
 package org.usfirst.frc.team4571.robot.subsystems;
 
-import java.util.logging.Logger;
-
 import org.usfirst.frc.team4571.robot.RobotConstants;
-import org.usfirst.frc.team4571.robot.subsystems.PID.DistanceOutput;
-import org.usfirst.frc.team4571.robot.subsystems.sensors.EncoderAverage;
-
 import com.ctre.CANTalon;
 
-import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  *
  */
 public class IntakeSubsystem extends Subsystem {
-	private CANTalon rightMotor;
+	private CANTalon intakeMotor;
 	private boolean isRollerIn;
-	public static final DoubleSolenoid ROLLER_SOLENOID = new DoubleSolenoid(RobotConstants.ROLLER_FOWARD_SOLENOID_CHANNEL, RobotConstants.ROLLER_REVERSE_SOLENOID_CHANNEL);
+	private boolean isRollerOut;
+	private DoubleSolenoid rollerSolenoid;
 
 	public IntakeSubsystem(){
-		this.rightMotor = new CANTalon(RobotConstants.RIGHT_MOTOR_CHANNEL);
-
-	}
+		this.intakeMotor = new CANTalon(RobotConstants.MOTOR_CHANNEL);
+		this.rollerSolenoid = new DoubleSolenoid(RobotConstants.ROLLER_FOWARD_SOLENOID_CHANNEL, RobotConstants.ROLLER_REVERSE_SOLENOID_CHANNEL);
+    }
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 
@@ -35,30 +27,32 @@ public class IntakeSubsystem extends Subsystem {
 		// Set the default command for a subsystem here.
 		//setDefaultCommand(new MySpecialCommand());
 	}
-
-	public void initialize() {
-		out(0);
+    public void initialize() {
+		out();
 	}
-	public void out(double speed){
-		ROLLER_SOLENOID.set(DoubleSolenoid.Value.kForward);
-		this.rightMotor.set(speed);
+	public void out(){
+		this.rollerSolenoid.set(DoubleSolenoid.Value.kForward);
 		isRollerIn = false;
+		isRollerOut = true;
 	}
-	 public void reverse(double speed){
-		ROLLER_SOLENOID.set(DoubleSolenoid.Value.kReverse);
-        this.rightMotor.set(speed);
-        isRollerIn = true;
-    }
+	public void in(){
+		this.rollerSolenoid.set(DoubleSolenoid.Value.kReverse);
+		isRollerIn = true;
+		isRollerOut = false;
+	}
 	public Value getRollerSolenoidValue(){
-		return ROLLER_SOLENOID.get();
+		return rollerSolenoid.get();
 	}
-	public void foward(double speed){
-		this.rightMotor.set(speed);
+	public void setSpeed(double speed){
+		this.intakeMotor.set(speed);
 	}
-	public void stop() {
-		this.rightMotor.set(0);
-    }
-	public boolean getRollerIn(){
+	public void stopRoller(double speed) {
+		this.intakeMotor.set(0);
+	}
+	public boolean isSolenoidIn(){
 		return this.isRollerIn;
+	}
+	public boolean isSolenoidOut(){
+		return this.isRollerOut;
 	}
 }
