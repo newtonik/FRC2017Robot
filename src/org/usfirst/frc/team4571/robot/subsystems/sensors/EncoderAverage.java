@@ -29,4 +29,9 @@ public class EncoderAverage implements PIDSource {
 	public double pidGet() {
 		return (this.leftEncoder.pidGet() + this.rightEncoder.pidGet()) / 2.0;
 	}
+
+	public void reset() {
+		this.leftEncoder.reset();
+		this.rightEncoder.reset();
+	}
 }

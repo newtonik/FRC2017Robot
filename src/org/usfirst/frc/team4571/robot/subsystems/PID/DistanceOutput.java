@@ -5,7 +5,6 @@ import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.PIDOutput;
 
 public class DistanceOutput implements PIDOutput {
-	private double output;
 	private CANTalon frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor;
 	
 	public DistanceOutput(CANTalon frontLeftMotor, CANTalon rearLeftMotor,
@@ -22,9 +21,5 @@ public class DistanceOutput implements PIDOutput {
 		this.rearLeftMotor.set(output);
 		this.frontRightMotor.set(output);
 		this.rearRightMotor.set(output);
-	}
-	
-	public double getOutput() {
-		return this.output;
 	}
 }
