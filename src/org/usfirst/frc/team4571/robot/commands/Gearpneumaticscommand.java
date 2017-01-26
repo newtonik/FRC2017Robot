@@ -21,11 +21,11 @@ public class Gearpneumaticscommand extends Command {
 			Robot.GEAR_PNEUMATICS_SUBSYSTEM.pushIn();
 		}
 		
-	}  {
+          {
 		
 	Robot.GEAR_PNEUMATICS_SUBSYSTEM.pushOut();	
 	}
-	
+	}
 	protected boolean isFinished (){
 		return  true;
 	}

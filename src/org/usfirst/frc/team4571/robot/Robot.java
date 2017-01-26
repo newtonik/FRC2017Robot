@@ -1,6 +1,5 @@
 package org.usfirst.frc.team4571.robot;
 
-import org.usfirst.frc.team4571.robot.commands.AutonomousDriveCommand;
 import org.usfirst.frc.team4571.robot.commands.AutonomousDriveCommand2;
 import org.usfirst.frc.team4571.robot.commands.Gearpneumaticscommand;
 import org.usfirst.frc.team4571.robot.commands.TankDriveCommand;
@@ -8,7 +7,6 @@ import org.usfirst.frc.team4571.robot.subsystems.Gearpneumatics;
 import org.usfirst.frc.team4571.robot.subsystems.TankDriveSubsystem;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 

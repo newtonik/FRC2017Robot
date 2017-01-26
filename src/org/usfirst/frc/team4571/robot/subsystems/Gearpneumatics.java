@@ -1,7 +1,5 @@
 package org.usfirst.frc.team4571.robot.subsystems;
 
-import org.usfirst.frc.team4571.robot.RobotConstants;
-
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -9,8 +7,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Gearpneumatics extends Subsystem {
 
-	private static final DoubleSolenoid GearSolenoid = new DoubleSolenoid (RobotConstants.GEAR_CLICKER_FORWARD_CHANNEL,RobotConstants.GEAR_CLICKER_BACK_CHANNEL );
-	private static final Compressor compressor = new Compressor (RobotConstants.COMPRESSOR_CHANNEL);
+	private static final DoubleSolenoid GearSolenoid = new DoubleSolenoid (0,1);
+	private static final Compressor compressor = new Compressor (0);
 	
 	protected void initDefaultCommand() {
 		// TODO Auto-generated method stub

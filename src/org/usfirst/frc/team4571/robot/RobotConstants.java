@@ -19,7 +19,5 @@ public class RobotConstants {
 	public static final double DRIVE_TRAIN_PULSES_PER_REVOLUTION = 1440.0;
 	public static final double DRIVE_TRAIN_WHEEL_CIRCUMFERENCE = DRIVE_TRAIN_WHEEL_DIAMETER_IN_FEET * Math.PI;
 	public static final double DRIVE_TRAIN_DISTANCE_PER_PULSE = DRIVE_TRAIN_WHEEL_CIRCUMFERENCE / DRIVE_TRAIN_PULSES_PER_REVOLUTION;
-	public static int GEAR_CLICKER_FORWARD_CHANNEL= 0;
-	public static int GEAR_CLICKER_BACK_CHANNEL= 1;
-	public static int COMPRESSOR_CHANNEL = 2; 
+	
 }
