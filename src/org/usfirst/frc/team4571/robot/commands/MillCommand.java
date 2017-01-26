@@ -3,6 +3,7 @@ package org.usfirst.frc.team4571.robot.commands;
 import org.usfirst.frc.team4571.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -15,10 +16,10 @@ public class MillCommand extends Command {
     	requires(Robot.MILL_SUBSYSTEM);
     }
     public void forward(){
-    	Robot.MILL_SUBSYSTEM.forward(0.5);
+    	Robot.MILL_SUBSYSTEM.forward(SmartDashboard.getDouble("MillForwardSpeed", 0.5));
     }
     public void reverse(){
-    	Robot.MILL_SUBSYSTEM.reverse(-0.5);
+    	Robot.MILL_SUBSYSTEM.reverse(SmartDashboard.getDouble("MillReverseSpeed", -0.5));
     }
     // Called just before this Command runs the first time
     protected void initialize() {
