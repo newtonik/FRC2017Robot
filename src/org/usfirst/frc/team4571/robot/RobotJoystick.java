@@ -6,7 +6,10 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class RobotJoystick extends Joystick {
-		private Button button1, button2, button3, button4;
+		Button button1;
+		private Button button2;
+		private Button button3;
+		private Button button4;
 		double tuningParameter;
 		
 		public RobotJoystick(int port) {

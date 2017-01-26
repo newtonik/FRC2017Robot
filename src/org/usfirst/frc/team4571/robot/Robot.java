@@ -2,10 +2,13 @@ package org.usfirst.frc.team4571.robot;
 
 import org.usfirst.frc.team4571.robot.commands.AutonomousDriveCommand;
 import org.usfirst.frc.team4571.robot.commands.AutonomousDriveCommand2;
+import org.usfirst.frc.team4571.robot.commands.Gearpneumaticscommand;
 import org.usfirst.frc.team4571.robot.commands.TankDriveCommand;
+import org.usfirst.frc.team4571.robot.subsystems.Gearpneumatics;
 import org.usfirst.frc.team4571.robot.subsystems.TankDriveSubsystem;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
@@ -22,13 +25,14 @@ public class Robot extends IterativeRobot {
 	public static final TankDriveSubsystem TANK_DRIVE_SUBSYSTEM = new TankDriveSubsystem();
 	public static final TankDriveCommand TANK_DRIVE_COMMAND = new TankDriveCommand();
 	public static final AutonomousDriveCommand2 AUTO_DRIVE_COMMAND2 = new AutonomousDriveCommand2();
+	public static final Gearpneumatics GEAR_PNEUMATICS_SUBSYSTEM = new Gearpneumatics();
+	public static final Gearpneumaticscommand GEAR_PNEMATICS_COMMAND = new Gearpneumaticscommand(); 
 
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
-	@Override
-    public void robotInit() {
+	public void robotInit() {
     }
 	
 	/**
@@ -67,7 +71,10 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void teleopInit() {
+    	Scheduler.getInstance().add(GEAR_PNEMATICS_COMMAND);
     	Scheduler.getInstance().add(TANK_DRIVE_COMMAND);
+    	
+    	
     }
 
     /**
@@ -76,6 +83,7 @@ public class Robot extends IterativeRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+        Robot.RIGHT_JOYSTICK.getButton1().whenPressed(GEAR_PNEMATICS_COMMAND);
     }
     
     /**
