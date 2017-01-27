@@ -25,11 +25,11 @@ public class Gearpneumatics extends Subsystem {
 	}
 	public  void pushOut() {
 		// TODO Auto-generated method stub
-		GearSolenoid.set(DoubleSolenoid.Value.kReverse);
+		GearSolenoid.set(DoubleSolenoid.Value.kForward);
 	}
 
 	public void pushIn() {
-		GearSolenoid.set(DoubleSolenoid.Value.kForward);
+		GearSolenoid.set(DoubleSolenoid.Value.kReverse);
 	}
 	public Value getSolenoidvalue(){
 		return GearSolenoid.get();
