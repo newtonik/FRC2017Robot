@@ -26,7 +26,7 @@ public class TankDriveSubsystem extends Subsystem {
 
 	private Encoder leftEncoder, rightEncoder;
 	
-	private static final double encoderKp = 1.0;
+	private static final double encoderKp = 0.05;
 	private static final double encoderKi = 0.0;
 	private static final double encoderKd = 0.0;
 
@@ -48,21 +48,21 @@ public class TankDriveSubsystem extends Subsystem {
 		this.rearLeftMotor = new CANTalon(RobotConstants.REAR_LEFT_MOTOR_CHANNEL);
 		this.rearRightMotor = new CANTalon(RobotConstants.REAR_RIGHT_MOTOR_CHANNEL);
 
-//		this.frontRightMotor.setInverted(true);
-//		this.rearRightMotor.setInverted(true);
+		this.frontRightMotor.setInverted(true);
+		this.rearRightMotor.setInverted(true);
 
 		this.robotDrive = new RobotDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
 
 		this.leftEncoder = new Encoder(RobotConstants.LEFT_ENCODER_CHANNEL_A,
 				RobotConstants.LEFT_ENCODER_CHANNEL_B, false, EncodingType.k4X);
 		this.rightEncoder = new Encoder(RobotConstants.RIGHT_ENCODER_CHANNEL_A,
-				RobotConstants.RIGHT_ENCODER_CHANNEL_B, false, EncodingType.k4X);
+				RobotConstants.RIGHT_ENCODER_CHANNEL_B, true, EncodingType.k4X);
 		this.leftEncoder.setDistancePerPulse(RobotConstants.DISTANCE_PER_PULSE);
 		this.rightEncoder.setDistancePerPulse(RobotConstants.DISTANCE_PER_PULSE);
 
 		this.encoderAverage = new EncoderAverage(leftEncoder, rightEncoder);
 		this.encoderAverage.setPIDSourceType(PIDSourceType.kDisplacement);
-		this.distanceOutput = new DistanceOutput(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
+		this.distanceOutput = new DistanceOutput(robotDrive);
 		this.distanceController = new PIDController(encoderKp, encoderKi, encoderKd, encoderAverage, distanceOutput);
 		this.distanceController.setPercentTolerance(5.0); 
 		this.distanceController.setContinuous(false);
@@ -70,7 +70,7 @@ public class TankDriveSubsystem extends Subsystem {
 		
 		this.navX = new AHRS(SPI.Port.kMXP);
 		this.navX.setPIDSourceType(PIDSourceType.kRate);
-		this.angleOutput = new AngleOutput(robotDrive);
+		this.angleOutput = new AngleOutput(robotDrive, distanceOutput);
 		this.turnController = new PIDController(navKp, navKi, navKd, navX, angleOutput); 
 		this.turnController.setAbsoluteTolerance(2.0f);
 		this.turnController.setInputRange(-180.0f, 180.0f);
@@ -123,7 +123,7 @@ public class TankDriveSubsystem extends Subsystem {
 	public void driveStraightForGivenDistance(double distanceSetPoint, double angleSetpoint) {
 		distanceController.reset();
 		turnController.reset();
-		distanceController.setInputRange(0, distanceSetPoint);
+//		distanceController.setInputRange(0, distanceSetPoint);
 		distanceController.setOutputRange(-1.0, 1.0);
 		turnController.setSetpoint(angleSetpoint);
 		turnController.setOutputRange(-1.0, 1.0);
@@ -132,11 +132,7 @@ public class TankDriveSubsystem extends Subsystem {
 	}
 	
 	public void drive(double distanceInFeet) {
-		driveStraightForGivenDistance(distanceInFeet, 0.0);
-		while(!isDriveStraightFinished()) {
-			this.robotDrive.arcadeDrive(distanceController.get(), 0.0); //Not sure if to change arcadeDrive to tankDrive
-		}
-		this.reserPID();
+		driveStraightForGivenDistance(distanceInFeet, 0);
 	}
 
 	public void drive(double leftValue, double rightValue, boolean squaredInputs) {

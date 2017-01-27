@@ -1,25 +1,23 @@
 package org.usfirst.frc.team4571.robot.subsystems.PID;
 
-import com.ctre.CANTalon;
-
 import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.RobotDrive;
 
 public class DistanceOutput implements PIDOutput {
-	private CANTalon frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor;
+	private RobotDrive robotDrive;
+	public double output;
 	
-	public DistanceOutput(CANTalon frontLeftMotor, CANTalon rearLeftMotor,
-	CANTalon frontRightMotor, CANTalon rearRightMotor) {
-		this.frontLeftMotor = frontLeftMotor;
-		this.rearLeftMotor = rearLeftMotor;
-		this.frontRightMotor = frontRightMotor;
-		this.rearRightMotor = rearRightMotor;
+	public DistanceOutput(RobotDrive robotDrive) {
+		this.robotDrive = robotDrive;
 	}
 
 	@Override
 	public void pidWrite(double output) {
-		this.frontLeftMotor.set(output);
-		this.rearLeftMotor.set(output);
-		this.frontRightMotor.set(output);
-		this.rearRightMotor.set(output);
+		this.output = output;
+		this.robotDrive.tankDrive(output, output);
+	}
+	
+	public double getTranslationalSpeed() {
+		return this.output;
 	}
 }

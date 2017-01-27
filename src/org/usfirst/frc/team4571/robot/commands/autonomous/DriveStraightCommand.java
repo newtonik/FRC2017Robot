@@ -16,6 +16,7 @@ public class DriveStraightCommand extends Command {
         // eg. requires(chassis);
     	this.distanceInFeet = distanceInFeet;
     	requires(Robot.TANK_DRIVE_SUBSYSTEM);
+    	Robot.TANK_DRIVE_SUBSYSTEM.driveStraightForGivenDistance(distanceInFeet, 0);
     }
 
     // Called just before this Command runs the first time
@@ -25,7 +26,6 @@ public class DriveStraightCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.TANK_DRIVE_SUBSYSTEM.drive(distanceInFeet);
     }
 
     // Make this return true when this Command no longer needs to run execute()
