@@ -18,6 +18,7 @@ public class EncoderAverage implements PIDSource {
 	public void setPIDSourceType(PIDSourceType pidSource) {
 		this.leftEncoder.setPIDSourceType(pidSource);
 		this.rightEncoder.setPIDSourceType(pidSource);
+		this.pidSource = pidSource;
 	}
 
 	@Override
