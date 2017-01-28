@@ -12,14 +12,19 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class DriveCommand extends Command {
 	
-    public DriveCommand(double distanceInFeet, double angle) {
+    private double distanceInFeet;
+	private double angle;
+
+	public DriveCommand(double distanceInFeet, double angle) {
     	requires(Robot.TANK_DRIVE_SUBSYSTEM);
-    	Robot.TANK_DRIVE_SUBSYSTEM.setPIDParameters(distanceInFeet, angle);
+    	this.distanceInFeet = distanceInFeet;
+    	this.angle = angle;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.TANK_DRIVE_SUBSYSTEM.initialize();
+    	Robot.TANK_DRIVE_SUBSYSTEM.setBothPIDParameters(distanceInFeet, angle);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -33,18 +38,24 @@ public class DriveCommand extends Command {
     	SmartDashboard.putNumber("Distance Get Value", Robot.TANK_DRIVE_SUBSYSTEM.getDistanceController().get() );
     	SmartDashboard.putNumber("Distance Error", Robot.TANK_DRIVE_SUBSYSTEM.getDistanceController().getError() );
     	
-    	SmartDashboard.putNumber( "NavX angle", Robot.TANK_DRIVE_SUBSYSTEM.getNavXAngle() );    	
+    	SmartDashboard.putNumber( "NavX angle", Robot.TANK_DRIVE_SUBSYSTEM.getNavXAngle() );    
+    	SmartDashboard.putNumber("AngleOutput", Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().get());
+    	SmartDashboard.putNumber("Angle SetPoint", Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().getSetpoint());
+    	SmartDashboard.putNumber("Angle Error", Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().getError()); 
+    	SmartDashboard.putNumber("Angle avg error", Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().getAvgError());
     }
 
     protected boolean isFinished() {
-        return Robot.TANK_DRIVE_SUBSYSTEM.isFinished();
+        return Robot.TANK_DRIVE_SUBSYSTEM.isBothFinished();
     }
 
     protected void end() {
     	Robot.TANK_DRIVE_SUBSYSTEM.getDistanceController().disable();
+    	Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().disable();
     }
     
     protected void interrupted() {
     	Robot.TANK_DRIVE_SUBSYSTEM.getDistanceController().disable();
+    	Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().disable();
     }
 }

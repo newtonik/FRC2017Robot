@@ -26,7 +26,7 @@ public class Robot extends IterativeRobot {
 	
 	public static final RunFor30Minutes RUN_FOR_30_MIN = new RunFor30Minutes();
 	
-	public static final DriveCommand DRIVE_STRAIGHT_COMMAND = new DriveCommand(1.0, 0);
+	public static final DriveCommand DRIVE_STRAIGHT_COMMAND = new DriveCommand(1.0, 0.0);
 	
 	public static final TurnDegreesCommand TURN_RIGHT_90_DEGREES = new TurnDegreesCommand(-90.0);
 	public static final TurnDegreesCommand TURN_LEFT_90_DEGREES = new TurnDegreesCommand(90.0);
@@ -39,6 +39,7 @@ public class Robot extends IterativeRobot {
      */
 	@Override
     public void robotInit() {
+		Robot.LEFT_JOYSTICK.button4WhenPressed(TURN_LEFT_90_DEGREES);
     }
 	
 	/**
@@ -78,6 +79,8 @@ public class Robot extends IterativeRobot {
     @Override
     public void teleopInit() {
     	Scheduler.getInstance().add(TANK_DRIVE_COMMAND);
+    	//Scheduler.getInstance().add(TURN_LEFT_90_DEGREES);
+    	
     }
 
     /**

@@ -10,26 +10,32 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class TurnDegreesCommand extends Command {
 
-    public TurnDegreesCommand(double angle) {
+    private double angle;
+
+	public TurnDegreesCommand(double angle) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.TANK_DRIVE_SUBSYSTEM);
-    	Robot.TANK_DRIVE_SUBSYSTEM.setPIDParameters(0, angle);
+    	this.angle = angle;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.TANK_DRIVE_SUBSYSTEM.initialize();
+    	Robot.TANK_DRIVE_SUBSYSTEM.setAnglePIDParameter(angle);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	SmartDashboard.putNumber( "NavX angle", Robot.TANK_DRIVE_SUBSYSTEM.getNavXAngle() );
+    	SmartDashboard.putNumber("Angle SetPoint", Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().getSetpoint());
+    	System.out.println("Left Speed ( Distance - Turn )" + (Robot.TANK_DRIVE_SUBSYSTEM.getDistanceController().get() - Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().get()));
+    	System.out.println("Right Speed ( Distance + Turn )" + (Robot.TANK_DRIVE_SUBSYSTEM.getDistanceController().get() + Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().get()));
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Robot.TANK_DRIVE_SUBSYSTEM.isFinished();
+        return Robot.TANK_DRIVE_SUBSYSTEM.isAngleFinished();
     }
 
     // Called once after isFinished returns true

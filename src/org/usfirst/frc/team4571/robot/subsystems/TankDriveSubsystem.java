@@ -34,9 +34,9 @@ public class TankDriveSubsystem extends Subsystem {
 	private final DistanceOutput distanceOutput;
 	private final PIDController distanceController;
 	
-	private static final double navKp = 1.0;
-	private static final double navKi = 0.0;
-	private static final double navKd = 0.0;
+	private static final double navKp = 0.05;
+	private static final double navKi = 5.0;
+	private static final double navKd = 7.0;
 	
 	private final AHRS navX;
 	private final AngleOutput angleOutput;
@@ -48,15 +48,15 @@ public class TankDriveSubsystem extends Subsystem {
 		this.rearLeftMotor = new CANTalon(RobotConstants.REAR_LEFT_MOTOR_CHANNEL);
 		this.rearRightMotor = new CANTalon(RobotConstants.REAR_RIGHT_MOTOR_CHANNEL);
 
-		this.frontRightMotor.setInverted(true);
-		this.rearRightMotor.setInverted(true);
+//		this.frontRightMotor.setInverted(true);
+//		this.rearRightMotor.setInverted(true);
 
 		this.robotDrive = new RobotDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
 
 		this.leftEncoder = new Encoder(RobotConstants.LEFT_ENCODER_CHANNEL_A,
-				RobotConstants.LEFT_ENCODER_CHANNEL_B, false, EncodingType.k4X);
+				RobotConstants.LEFT_ENCODER_CHANNEL_B, true, EncodingType.k4X);
 		this.rightEncoder = new Encoder(RobotConstants.RIGHT_ENCODER_CHANNEL_A,
-				RobotConstants.RIGHT_ENCODER_CHANNEL_B, true, EncodingType.k4X);
+				RobotConstants.RIGHT_ENCODER_CHANNEL_B, false, EncodingType.k4X);
 		this.leftEncoder.setDistancePerPulse(RobotConstants.DISTANCE_PER_PULSE);
 		this.rightEncoder.setDistancePerPulse(RobotConstants.DISTANCE_PER_PULSE);
 
@@ -94,27 +94,43 @@ public class TankDriveSubsystem extends Subsystem {
 		return this.navX.getAngle();
 	}
 
-	public boolean isFinished() {
+	public boolean isDistanceFinished() {
+		return distanceController.onTarget();
+	}
+	
+	public boolean isBothFinished() {
 		return distanceController.onTarget() && turnController.onTarget();
 	}
+	
+	public boolean isAngleFinished() {
+		return turnController.onTarget();
+	}
 
-	public void setPIDParameters(double distanceSetPoint, double angleSetpoint) {
+	public void setBothPIDParameters(double distanceSetPoint, double angleSetPoint) {
 		distanceController.reset();
 		turnController.reset();
 
 		distanceController.setOutputRange(-0.6, 0.6);
 		distanceController.setSetpoint(distanceSetPoint);
 		distanceController.setAbsoluteTolerance(0.1 * distanceSetPoint);
-		
-		turnController.setSetpoint(angleSetpoint);
-		turnController.setOutputRange(-1.0, 1.0);		
+		turnController.setOutputRange(-0.6, 0.6);
+		turnController.setSetpoint(angleSetPoint);
 		turnController.setAbsoluteTolerance(2.0f);
-		turnController.setContinuous(true);
 		
 		distanceController.enable();
 		turnController.enable();
 	}
+	
+	public void setAnglePIDParameter(double angleSetPoint) {
+		turnController.reset();
+		
+		turnController.setOutputRange(-0.6, 0.6);
+		turnController.setSetpoint(angleSetPoint);
+		turnController.setAbsoluteTolerance(2.0f);
 
+		turnController.enable();
+	}
+	
 	// Teleop drive
 	public void drive(double leftValue, double rightValue, boolean squaredInputs) {
 		this.robotDrive.tankDrive(leftValue, rightValue, squaredInputs);
