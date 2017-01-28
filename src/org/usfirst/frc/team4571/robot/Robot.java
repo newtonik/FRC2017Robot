@@ -72,6 +72,7 @@ public class Robot extends IterativeRobot {
     @Override
     public void teleopInit() {
     	Scheduler.getInstance().add(TANK_DRIVE_COMMAND);
+    	Scheduler.getInstance().add(INTAKE_COMMAND);
     }
 
     /**
@@ -80,6 +81,7 @@ public class Robot extends IterativeRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+        Robot.RIGHT_JOYSTICK.button4WhenPressed(INTAKE_COMMAND);
     }
     
     /**
