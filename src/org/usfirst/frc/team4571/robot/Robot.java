@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4571.robot;
 
+import org.usfirst.frc.team4571.robot.commands.TurnDegreesCommand;
 import org.usfirst.frc.team4571.robot.commands.autonomous.DriveCommand;
 import org.usfirst.frc.team4571.robot.commands.autonomous.RunFor30Minutes;
 import org.usfirst.frc.team4571.robot.commands.teleOP.TankDriveCommand;
@@ -20,9 +21,17 @@ public class Robot extends IterativeRobot {
 	public static final RobotJoystick RIGHT_JOYSTICK = new RobotJoystick(RobotConstants.RIGHT_JOYSTICK_PORT);
 	
 	public static final TankDriveSubsystem TANK_DRIVE_SUBSYSTEM = new TankDriveSubsystem();
+	
 	public static final TankDriveCommand TANK_DRIVE_COMMAND = new TankDriveCommand();
+	
 	public static final RunFor30Minutes RUN_FOR_30_MIN = new RunFor30Minutes();
+	
 	public static final DriveCommand DRIVE_STRAIGHT_COMMAND = new DriveCommand(1.0, 0);
+	
+	public static final TurnDegreesCommand TURN_RIGHT_90_DEGREES = new TurnDegreesCommand(-90.0);
+	public static final TurnDegreesCommand TURN_LEFT_90_DEGREES = new TurnDegreesCommand(90.0);
+	public static final TurnDegreesCommand TURN_180_DEGREES = new TurnDegreesCommand(180.0);
+	
 
     /**
      * This function is run when the robot is first started up and should be

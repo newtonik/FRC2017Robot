@@ -2,12 +2,10 @@ package org.usfirst.frc.team4571.robot.subsystems;
 
 import org.usfirst.frc.team4571.robot.RobotConstants;
 import org.usfirst.frc.team4571.robot.subsystems.PID.AngleOutput;
-//import org.usfirst.frc.team4571.robot.subsystems.PID.AngleOutput;
 import org.usfirst.frc.team4571.robot.subsystems.PID.DistanceOutput;
 import org.usfirst.frc.team4571.robot.subsystems.sensors.EncoderAverage;
 
 import com.ctre.CANTalon;
-//import com.kauailabs.navx.frc.AHRS;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
@@ -16,7 +14,6 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SPI;
-//import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -98,7 +95,7 @@ public class TankDriveSubsystem extends Subsystem {
 	}
 
 	public boolean isFinished() {
-		return this.distanceController.onTarget();
+		return distanceController.onTarget() && turnController.onTarget();
 	}
 
 	public void setPIDParameters(double distanceSetPoint, double angleSetpoint) {
@@ -127,7 +124,11 @@ public class TankDriveSubsystem extends Subsystem {
 		robotDrive.drive(0,0);
 	}
 	
-	public PIDController getDistanceController(){
+	public PIDController getDistanceController() {
 		return this.distanceController;
+	}
+	
+	public PIDController getTurnController() {
+		return this.turnController;
 	}
 }

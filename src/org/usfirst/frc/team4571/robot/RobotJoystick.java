@@ -105,4 +105,3 @@ public class RobotJoystick extends Joystick {
 			return ( ( Math.pow(originalValue, 3) * tuningParameter ) + ( ( 1 - tuningParameter ) * originalValue ) );
 		}
 	}
-		
