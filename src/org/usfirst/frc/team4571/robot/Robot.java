@@ -22,7 +22,7 @@ public class Robot extends IterativeRobot {
 	public static final TankDriveSubsystem TANK_DRIVE_SUBSYSTEM = new TankDriveSubsystem();
 	public static final TankDriveCommand TANK_DRIVE_COMMAND = new TankDriveCommand();
 	public static final RunFor30Minutes RUN_FOR_30_MIN = new RunFor30Minutes();
-	public static final DriveCommand DRIVE_STRAIGHT_COMMAND = new DriveCommand(1.0);
+	public static final DriveCommand DRIVE_STRAIGHT_COMMAND = new DriveCommand(1.0, 0);
 
     /**
      * This function is run when the robot is first started up and should be

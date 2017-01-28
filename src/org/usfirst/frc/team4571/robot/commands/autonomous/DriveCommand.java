@@ -12,9 +12,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class DriveCommand extends Command {
 	
-    public DriveCommand(double distanceInFeet) {
+    public DriveCommand(double distanceInFeet, double angle) {
     	requires(Robot.TANK_DRIVE_SUBSYSTEM);
-    	Robot.TANK_DRIVE_SUBSYSTEM.driveStraightForGivenDistance(distanceInFeet);
+    	Robot.TANK_DRIVE_SUBSYSTEM.setPIDParameters(distanceInFeet, angle);
     }
 
     // Called just before this Command runs the first time
@@ -33,20 +33,11 @@ public class DriveCommand extends Command {
     	SmartDashboard.putNumber("Distance Get Value", Robot.TANK_DRIVE_SUBSYSTEM.getDistanceController().get() );
     	SmartDashboard.putNumber("Distance Error", Robot.TANK_DRIVE_SUBSYSTEM.getDistanceController().getError() );
     	
-    	System.out.println( "Left Encoder distance = " + Robot.TANK_DRIVE_SUBSYSTEM.getLeftEncoderDistance());
-    	System.out.println("Right Encoder distance = " +Robot.TANK_DRIVE_SUBSYSTEM.getRightEncoderDistance() );
-    	System.out.println("Average distance = " +Robot.TANK_DRIVE_SUBSYSTEM.getDistance() );
-    	
-    	System.out.println("Distance setpoint = " +Robot.TANK_DRIVE_SUBSYSTEM.getDistanceController().getSetpoint() );
-    	System.out.println("Distance Average Error = " +Robot.TANK_DRIVE_SUBSYSTEM.getDistanceController().getAvgError()  );
-    	System.out.println("Distance Get Value = " +Robot.TANK_DRIVE_SUBSYSTEM.getDistanceController().get() );
-    	System.out.println("Distance Error = " +Robot.TANK_DRIVE_SUBSYSTEM.getDistanceController().getError() );
-    	System.out.println("On Target = " +Robot.TANK_DRIVE_SUBSYSTEM.getDistanceController().onTarget() );
-    	
+    	SmartDashboard.putNumber( "NavX angle", Robot.TANK_DRIVE_SUBSYSTEM.getNavXAngle() );    	
     }
 
     protected boolean isFinished() {
-        return Robot.TANK_DRIVE_SUBSYSTEM.isDriveStraightFinished();
+        return Robot.TANK_DRIVE_SUBSYSTEM.isFinished();
     }
 
     protected void end() {
