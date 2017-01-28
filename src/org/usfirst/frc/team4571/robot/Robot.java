@@ -81,7 +81,7 @@ public class Robot extends IterativeRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-        Robot.RIGHT_JOYSTICK.button4WhenPressed(INTAKE_COMMAND);
+        Robot.LEFT_JOYSTICK.button4WhenPressed(INTAKE_COMMAND);
     }
     
     /**
